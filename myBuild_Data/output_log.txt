@@ -14,17 +14,83 @@ Platform assembly: C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\UnityEngi
 Loading C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
 Platform assembly: C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
 Loading C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
-- Completed reload, in  0.045 seconds
+- Completed reload, in  0.114 seconds
 Platform assembly: C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\System.dll (this message is harmless)
 desktop: 1366x768 60Hz; virtual: 4108x1080 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 <RI> Initialized touch support.
-UnloadTime: 1.309235 ms
+Initialize engine version: 5.4.2f2 (b7e030c65c9b)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 1060 (ID=0x1c60)
+    Vendor:   NVIDIA
+    VRAM:     3072 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.039 seconds
+Platform assembly: C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\System.dll (this message is harmless)
+desktop: 1366x768 60Hz; virtual: 4108x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+UnloadTime: 1.951606 ms
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 2a44 -> priority: 1 
-  Thread -> id: 14f4 -> priority: 1 
+  Thread -> id: 2ed8 -> priority: 1 
+  Thread -> id: 2424 -> priority: 1 
+<RI> Initialized touch support.
+The prefab 'PlayerCube' has multiple NetworkIdentity components. There can only be one NetworkIdentity on a prefab, and it must be on the root object.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+UnloadTime: 0.803951 ms
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 2e18 -> priority: 1 
+  Thread -> id: 269c -> priority: 1 
+The prefab 'PlayerCube' has multiple NetworkIdentity components. There can only be one NetworkIdentity on a prefab, and it must be on the root object.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+The prefab 'PlayerCube' has multiple NetworkIdentity components. There can only be one NetworkIdentity on a prefab, and it must be on the root object.
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)
+
+Initialize engine version: 5.4.2f2 (b7e030c65c9b)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 1060 (ID=0x1c60)
+    Vendor:   NVIDIA
+    VRAM:     3072 MB
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+- Completed reload, in  0.043 seconds
+Platform assembly: C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\aniki\Desktop\mvunity\myBuild_Data\Managed\System.dll (this message is harmless)
+desktop: 1366x768 60Hz; virtual: 4108x1080 at 0,0
+<RI> Initializing input.
+<RI> Input initialized.
+<RI> Initialized touch support.
+UnloadTime: 1.204149 ms
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 2b78 -> priority: 1 
+  Thread -> id: e24 -> priority: 1 
 The prefab 'PlayerCube' has multiple NetworkIdentity components. There can only be one NetworkIdentity on a prefab, and it must be on the root object.
  
 (Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/UnityEngineDebugBindings.gen.cpp Line: 42)

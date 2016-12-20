@@ -1,0 +1,20 @@
+Game description:
+Genre: SciFi-Fantasy Free for All FPS
+
+Players spawn inside a forest arena (circular?), inside the forest are various resources (stone, metals, wood, magic stuff) which can be collected by the playersand stored in their inventory.
+On the outskirts of the forest is a shop area where players can trade resources for upgrades (weapons, armor, skills, etc). Additionally the shop contains an expensive item "key".
+In the center of the forest is a gated area which requires the key to open. The first player to get inside the gate wins the round.
+
+There are so far 4 class ideas:
+Mage: Flimsy but can aquire a variety of magic skills.
+High damage, traps, mobility
+
+Ranger: Stealthy, fights from afar
+
+Warrior: Close range, hard to kill
+
+Engineer: Average bulkiness, builds AI-controlled robots
+-> resource collection robots
+-> static defense turrets
+-> patrolling combat drones
+-> scouting drones
