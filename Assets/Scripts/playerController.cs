@@ -9,23 +9,25 @@ public class playerController : NetworkBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		rb = this.GetComponent<Rigidbody> ();
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (!isLocalPlayer) {
-			return;
+            GetComponent<Renderer>().material.color = Color.blue;
+            return;
 		}
 
 		GetComponent<Renderer> ().material.color = Color.red;
 
 		float hor = Input.GetAxisRaw ("Horizontal");
 		float ver = Input.GetAxisRaw ("Vertical");
+        float rot = Input.GetAxis("Mouse X");
 
 		Vector3 movement = new Vector3 (hor, 0, ver);
 
-		//rb.MovePosition (transform.position + movement.normalized * speed * Time.deltaTime);
 		transform.Translate (movement.normalized * speed * Time.deltaTime);
+        transform.Rotate(Vector3.up, rot * 100f * Time.deltaTime, Space.Self);
 	}
 }
