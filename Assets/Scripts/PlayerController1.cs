@@ -2,6 +2,8 @@
 
 // Very simple smooth mouselook modifier for the MainCamera in Unity
 // by Francis R. Griffiths-Keam - www.runningdimensions.com
+using System.Runtime.InteropServices;
+using System;
 
 [AddComponentMenu("Camera/Simple Smooth Mouse Look ")]
 public class PlayerController1 : MonoBehaviour {
@@ -17,6 +19,7 @@ public class PlayerController1 : MonoBehaviour {
 	public float movementspeed;
 	Rigidbody rb;
 	public float jumpSpeed;
+	public int maxWall;
 
 	// Assign this if there's a parent object controlling motion, such as a Character Controller.
 	// Yaw rotation will affect this object instead of the camera if set.
@@ -75,31 +78,52 @@ public class PlayerController1 : MonoBehaviour {
 			transform.localRotation *= yRotation;
 		}
 
-		if (Input.GetKey (KeyCode.W)) {
-			characterBody.transform.Translate (Vector3.forward * Time.deltaTime * movementspeed);
-		}
-		if (Input.GetKey (KeyCode.A)) {
-			characterBody.transform.Translate (Vector3.left * Time.deltaTime * movementspeed);
-		}
-		if (Input.GetKey(KeyCode.S)) {
-			characterBody.transform.Translate (Vector3.back * Time.deltaTime * movementspeed);
-		}
-		if (Input.GetKey (KeyCode.D)) {
-			characterBody.transform.Translate (Vector3.right * Time.deltaTime * movementspeed);
-		}
-		if (isGrounded()) {
-			if (Input.GetKey (KeyCode.Space)) {
-				rb.AddForce (Vector3.up * jumpSpeed);
-			}
-		}
+		Move ();
+		Jump ();
 		characterBody.transform.localEulerAngles = new Vector3 (0, characterBody.transform.localEulerAngles.y, 0);
 
 	}
 
 	bool isGrounded() {
-		if (Physics.Raycast (new Ray (characterBody.transform.position, Vector3.down))) {
-			return true;
+		var hits = Physics.RaycastAll(new Ray (characterBody.transform.position, Vector3.down));
+		for(var i = 0; i < hits.Length; i++) {
+			if (hits [i].transform.tag.Equals ("Ground")) {
+				return true;
+			}
 		}
 		return false;
+	}
+
+	void Jump() {
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			if (isGrounded()) {
+				rb.AddForce (Vector3.up * jumpSpeed * 200);
+			}
+		}
+	}
+
+	void Move() {
+		if (Input.GetKey (KeyCode.W)) {
+			characterBody.transform.Translate (Vector3.forward * moveLength(transform.forward));
+		}
+		if (Input.GetKey (KeyCode.A)) {
+			characterBody.transform.Translate (Vector3.left * moveLength(-transform.right));
+		}
+		if (Input.GetKey(KeyCode.S)) {
+			characterBody.transform.Translate (Vector3.back * moveLength(-transform.forward));
+		}
+		if (Input.GetKey (KeyCode.D)) {
+			characterBody.transform.Translate (Vector3.right * moveLength(transform.right));
+		}
+	}
+
+	float moveLength (Vector3 direction) {
+		for(var j = movementspeed*Time.deltaTime; j >= 0; j-=Time.deltaTime) {
+			RaycastHit[] box = Physics.BoxCastAll (transform.position, transform.localScale/2, direction, new Quaternion(0, 0, 0, 0), j);
+			if (!Array.Exists(box, e => e.transform.tag == "Wall")) {
+				return j;
+			}
+		}
+		return 0;
 	}
 }
