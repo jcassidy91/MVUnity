@@ -20,6 +20,7 @@ public class PlayerController1 : MonoBehaviour {
 	Rigidbody rb;
 	public float jumpSpeed;
 	public int maxWall;
+	public Health health;
 
 	// Assign this if there's a parent object controlling motion, such as a Character Controller.
 	// Yaw rotation will affect this object instead of the camera if set.
@@ -32,6 +33,8 @@ public class PlayerController1 : MonoBehaviour {
 
 		// Set target direction for the character body to its inital state.
 		if (characterBody) targetCharacterDirection = characterBody.transform.localRotation.eulerAngles;
+
+		health = GameObject.Find("Player").GetComponent<Health> ();
 	}
 
 	void Update() {
@@ -76,6 +79,10 @@ public class PlayerController1 : MonoBehaviour {
 		} else {
 			var yRotation = Quaternion.AngleAxis(_mouseAbsolute.x, transform.InverseTransformDirection(Vector3.up));
 			transform.localRotation *= yRotation;
+		}
+
+		if (transform.position.y < -100) {
+			health.UpdateHealth (-10);
 		}
 
 		Move ();
