@@ -80,17 +80,30 @@ public class PlayerController1 : MonoBehaviour {
 
 		Move ();
 		Jump ();
+		if (isGrounded ()) {
+			rb.useGravity = false;
+			rb.velocity = new Vector3 (rb.velocity.x, 0, rb.velocity.z);
+		} else {
+			rb.useGravity = true;
+		}
+
+
 		characterBody.transform.localEulerAngles = new Vector3 (0, characterBody.transform.localEulerAngles.y, 0);
 
 	}
 
 	bool isGrounded() {
-		var hits = Physics.RaycastAll(new Ray (characterBody.transform.position, Vector3.down));
-		for(var i = 0; i < hits.Length; i++) {
-			if (hits [i].transform.tag.Equals ("Ground")) {
-				return true;
-			}
+//		var hits = Physics.RaycastAll(new Ray (characterBody.transform.position, Vector3.down));
+//		for(var i = 0; i < hits.Length; i++) {
+//			if (hits [i].transform.tag.Equals ("Ground")) {
+//				return true;
+//			}
+//		}
+
+		if (Physics.Raycast(characterBody.transform.position, Vector3.down, 0.55f)) {
+			return true;
 		}
+
 		return false;
 	}
 
@@ -126,4 +139,5 @@ public class PlayerController1 : MonoBehaviour {
 		}
 		return 0;
 	}
+
 }
