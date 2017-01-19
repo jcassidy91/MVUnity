@@ -21,6 +21,8 @@ public class PlayerController1 : MonoBehaviour {
 	public float jumpSpeed;
 	public int maxWall;
 
+	public bool isJumping = false;
+
 	// Assign this if there's a parent object controlling motion, such as a Character Controller.
 	// Yaw rotation will affect this object instead of the camera if set.
 	public GameObject characterBody;
@@ -82,7 +84,6 @@ public class PlayerController1 : MonoBehaviour {
 		Jump ();
 		if (isGrounded ()) {
 			rb.useGravity = false;
-			rb.velocity = new Vector3 (rb.velocity.x, 0, rb.velocity.z);
 		} else {
 			rb.useGravity = true;
 		}
@@ -93,14 +94,14 @@ public class PlayerController1 : MonoBehaviour {
 	}
 
 	bool isGrounded() {
-//		var hits = Physics.RaycastAll(new Ray (characterBody.transform.position, Vector3.down));
-//		for(var i = 0; i < hits.Length; i++) {
-//			if (hits [i].transform.tag.Equals ("Ground")) {
-//				return true;
-//			}
-//		}
-
-		if (Physics.Raycast(characterBody.transform.position, Vector3.down, 0.55f)) {
+		//		var hits = Physics.RaycastAll(new Ray (characterBody.transform.position, Vector3.down));
+		//		for(var i = 0; i < hits.Length; i++) {
+		//			if (hits [i].transform.tag.Equals ("Ground")) {
+		//				return true;
+		//			}
+		//		}
+		RaycastHit[] below = Physics.BoxCastAll(characterBody.transform.position,new Vector3(0.5f,0.5f,0.5f),Vector3.down,characterBody.GetComponent<Transform>().rotation,0.05f);
+		if (Array.Exists(below, e => e.transform.tag == "Wall")) {
 			return true;
 		}
 
@@ -110,9 +111,15 @@ public class PlayerController1 : MonoBehaviour {
 	void Jump() {
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			if (isGrounded()) {
-				rb.AddForce (Vector3.up * jumpSpeed * 200);
+				for (int i = 0; i < 8; i++) {
+					Invoke ("UpForce", i * Time.deltaTime);
+				}
 			}
 		}
+	}
+
+	void UpForce() {
+		rb.AddForce (Vector3.up * jumpSpeed * 500);
 	}
 
 	void Move() {
