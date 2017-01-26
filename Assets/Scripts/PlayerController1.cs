@@ -114,10 +114,20 @@ public class PlayerController1 : MonoBehaviour {
 		return false;
 	}
 
+//	void Jump() {
+//		if (Input.GetKeyDown (KeyCode.Space)) {
+//			if (isGrounded()) {
+//				rb.AddForce (Vector3.up * jumpSpeed * 200);
+//			}
+//		}
+//	}
+
 	void Jump() {
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			if (isGrounded()) {
-				rb.AddForce (Vector3.up * jumpSpeed * 200);
+				for (int i = 0; i < 8; i++) {
+					Invoke ("UpForce", i * Time.deltaTime);
+				}
 			}
 		}
 	}
