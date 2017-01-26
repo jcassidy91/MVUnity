@@ -6,6 +6,8 @@ public class spinningControl : MonoBehaviour {
 
 	public GameObject player;
 	public GameObject pointLight;
+	public GameObject button;
+	public GameObject box;
 	public Quaternion rotatePosition;
 	// Use this for initialization
 	void Start () {
@@ -26,5 +28,20 @@ public class spinningControl : MonoBehaviour {
 	void OnMouseExit() {
 		pointLight.GetComponent<Light> ().intensity = 0;
 		player.transform.rotation = rotatePosition;
+	}
+
+	void OnMouseDown() {
+		button.SetActive (true);
+		box.SetActive (true);
+
+		if (player.tag == "mageClassUI") {
+			box.transform.position = new Vector3 (-36f, 20f, 82.83249f);
+		} else if (player.tag == "rangerClassUI") {
+			box.transform.position = new Vector3 (20f, 20f, 82.83249f);
+		} else if (player.tag == "warriorClassUI") {
+			box.transform.position = new Vector3 (-36f, -32f, 82.83249f);
+		} else if (player.tag == "engineerClassUI") {
+			box.transform.position = new Vector3 (20f, -32f, 82.83249f);
+		};
 	}
 }

@@ -6,6 +6,9 @@ TagManager:
   tags:
   - collectible
   - warriorClassUI
+  - mageClassUI
+  - rangerClassUI
+  - engineerClassUI
   layers:
   - Default
   - TransparentFX
