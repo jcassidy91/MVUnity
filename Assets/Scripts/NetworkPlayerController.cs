@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+using System.Collections;
+using UnityEngine.Networking;
+using UnityEngine;
 using System.Runtime.InteropServices;
 using System;
 
 [AddComponentMenu("Camera/Simple Smooth Mouse Look ")]
-public class PlayerController1 : MonoBehaviour {
+public class NetworkPlayerController : NetworkBehaviour {
 	Vector2 _mouseAbsolute;
 	Vector2 _smoothMouse;
 
@@ -34,11 +36,16 @@ public class PlayerController1 : MonoBehaviour {
 	}
 
 	void Update() {
+		
+		if (!isLocalPlayer) {
+			//GetComponent<Renderer>().material.color = Color.blue;
+			return;
+		}
+
 		ManageHealth ();
 		Look ();
 		Move ();
 		Jump ();
-
 	}
 
 	bool isGrounded() {
