@@ -23,7 +23,9 @@ GameObject:
   - component: {fileID: 92817617935870028}
   - component: {fileID: 124862207665651590}
   - component: {fileID: 81988769432963236}
-  - component: {fileID: 114313491254636036}
+  - component: {fileID: 114612788898197674}
+  - component: {fileID: 114567460989279306}
+  - component: {fileID: 114598270548726558}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -44,8 +46,6 @@ GameObject:
   - component: {fileID: 23864169778661208}
   - component: {fileID: 54107456343314944}
   - component: {fileID: 114851575068254522}
-  - component: {fileID: 114819958919017750}
-  - component: {fileID: 114103159206502036}
   m_Layer: 0
   m_Name: NetworkPlayer
   m_TagString: Player
@@ -73,7 +73,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1738927443000602}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.7840533, y: 0.5, z: -8.970141}
+  m_LocalPosition: {x: 0, y: 0, z: 4.64}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4425532141865814}
@@ -193,12 +193,56 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1576945901564424}
   m_Enabled: 1
---- !u!114 &114103159206502036
+--- !u!114 &114567460989279306
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1738927443000602}
+  m_GameObject: {fileID: 1576945901564424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86b7eb18301f04d90a2379eecbb4c39f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clampInDegrees: {x: 360, y: 180}
+  lockCursor: 1
+  sensitivity: {x: 2, y: 2}
+  smoothing: {x: 3, y: 3}
+  targetDirection: {x: 0, y: 0}
+  targetCharacterDirection: {x: 0, y: 0}
+  movementspeed: 10
+  jumpSpeed: 10
+  maxWall: 10
+  health: {fileID: 0}
+  isJumping: 0
+  characterBody: {fileID: 1738927443000602}
+  spawnpoint: {x: 0, y: 0, z: 0}
+--- !u!114 &114598270548726558
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1576945901564424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: 0.033333335
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
+--- !u!114 &114612788898197674
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1576945901564424}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
@@ -225,41 +269,6 @@ MonoBehaviour:
     i15: 255
   m_ServerOnly: 0
   m_LocalPlayerAuthority: 1
---- !u!114 &114313491254636036
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1576945901564424}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dad1a72d5cb7e4da7838d80b76768149, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clampInDegrees: {x: 360, y: 180}
-  lockCursor: 1
-  sensitivity: {x: 1.5, y: 1.5}
-  smoothing: {x: 3, y: 3}
-  targetDirection: {x: 0, y: 0}
-  targetCharacterDirection: {x: 0, y: 0}
-  movementspeed: 10
-  jumpSpeed: 100
-  maxWall: 4
-  health: {fileID: 0}
-  isJumping: 0
-  characterBody: {fileID: 1738927443000602}
-  spawnpoint: {x: 0, y: 0, z: 0}
---- !u!114 &114819958919017750
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1738927443000602}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86b7eb18301f04d90a2379eecbb4c39f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114851575068254522
 MonoBehaviour:
   m_ObjectHideFlags: 1
