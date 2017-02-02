@@ -25,6 +25,7 @@ public class PlayerController1 : MonoBehaviour {
 	public bool isJumping = false;
 
 	public GameObject characterBody;
+	public Vector3 spawnpoint;
 
 	void Start() {
 		rb = characterBody.GetComponent<Rigidbody> ();
@@ -32,9 +33,42 @@ public class PlayerController1 : MonoBehaviour {
 		targetCharacterDirection = characterBody.transform.localRotation.eulerAngles;
 
 		health = GameObject.Find("Player").GetComponent<Health> ();
+		spawnpoint = transform.position;
 	}
 
 	void Update() {
+		ManageHealth ();
+		Look ();
+		Move ();
+		Jump ();
+
+	}
+
+	bool isGrounded() {
+		RaycastHit[] below = Physics.BoxCastAll(characterBody.transform.position, new Vector3(0.5f,0.5f,0.5f), Vector3.down, characterBody.GetComponent<Transform>().rotation,0.05f);
+		if (Array.Exists(below, e => e.transform.tag == "Wall")) {
+			return true;
+		}
+
+		return false;
+	}
+
+	void Jump() {
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			if (isGrounded()) {
+				rb.AddForce(Vector3.up*jumpSpeed*4);
+			}
+		}
+	}
+
+	void ManageHealth() {
+		if (health.GetHealth() == 0) {
+			Respawn ();
+		}
+		health.SetHealthOverlay(health.GetHealth() < health.GetMaxHealth() / 10);
+	}
+
+	void Look() {
 		Screen.lockCursor = lockCursor;
 
 		var targetOrientation = Quaternion.Euler(targetDirection);
@@ -60,49 +94,13 @@ public class PlayerController1 : MonoBehaviour {
 
 		transform.localRotation *= targetOrientation;
 
-			var yRotation = Quaternion.AngleAxis(_mouseAbsolute.x, characterBody.transform.up);
-			characterBody.transform.localRotation = yRotation;
-			characterBody.transform.localRotation *= targetCharacterOrientation;
+		var yRotation = Quaternion.AngleAxis(_mouseAbsolute.x, characterBody.transform.up);
+		characterBody.transform.localRotation = yRotation;
+		characterBody.transform.localRotation *= targetCharacterOrientation;
 
 		if (transform.position.y < -100) {
 			health.UpdateHealth (-10);
 		}
-
-		Move ();
-		Jump ();
-		if (isGrounded ()) {
-			rb.useGravity = false;
-		} else {
-			rb.useGravity = true;
-		}
-
-
-		characterBody.transform.localEulerAngles = new Vector3 (0, characterBody.transform.localEulerAngles.y, 0);
-
-	}
-
-	bool isGrounded() {
-		RaycastHit[] below = Physics.BoxCastAll(characterBody.transform.position,new Vector3(0.5f,0.5f,0.5f),Vector3.down,characterBody.GetComponent<Transform>().rotation,0.05f);
-		if (Array.Exists(below, e => e.transform.tag == "Wall")) {
-			return true;
-		}
-
-		return false;
-	}
-
-	void Jump() {
-		if (Input.GetKeyDown (KeyCode.Space)) {
-			if (isGrounded()) {
-				for (int i = 0; i < 8; i++) {
-					//Invoke ("UpForce", i * Time.deltaTime);
-					rb.AddForce(Vector3.up*jumpSpeed);
-				}
-			}
-		}
-	}
-
-	void UpForce() {
-		rb.AddForce (Vector3.up * jumpSpeed * 500);
 	}
 
 	void Move() {
@@ -128,6 +126,11 @@ public class PlayerController1 : MonoBehaviour {
 			}
 		}
 		return 0;
+	}
+
+	void Respawn() {
+		characterBody.transform.position = spawnpoint;
+		health.SetHealth (1000);
 	}
 
 }
