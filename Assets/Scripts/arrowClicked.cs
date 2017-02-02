@@ -17,11 +17,18 @@ public class arrowClicked : MonoBehaviour {
 		
 	}
 
-	void OnMouseDown() {
-		if(box.transform.position == new Vector3(-36f, 20f, 82.83249f) {
+	public void OnMouseDown() {
+		if (box.transform.position == new Vector3(-36f, 20f, 82.83249f)) {
 			characterClass = "Mage";
-		} else if(box.transform.ImagePosition == new Vector3(20f, 20f, 82.83249f) {
+		} else if (box.transform.position == new Vector3(20f, 20f, 82.83249f)) {
 			characterClass = "Ranger";
-		};
+		} else if (box.transform.position == new Vector3(-36f, -32f, 82.83249f)) {
+			characterClass = "Warrior";
+		} else if (box.transform.position == new Vector3(20f, -32f, 82.83249f)) {
+			characterClass = "Engineer";
+		}
+
+		Debug.Log (characterClass);
+		Application.LoadLevel ("TestScene");
 	}
 }
