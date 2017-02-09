@@ -9,14 +9,14 @@ public class Health : MonoBehaviour {
 	Slider healthBar;
 	Text healthText;
 	float health;
-	public GameObject lowHealthOverlay;
+	GameObject lowHealthOverlay;
 
 	void Start () {
 		health = maxHealth;
 		healthBar = GameObject.Find ("PlayerHealthBar").GetComponent<Slider>();
 		healthText = GameObject.Find ("HealthText").GetComponent<Text>();
-		lowHealthOverlay = GameObject.Find ("LowHealthOverlay");
-		SetHealthOverlay (false);
+		lowHealthOverlay = GameObject.Find ("HUD/LowHealthOverlay");
+		//SetHealthOverlay (false);
 		UpdateSlider ();
 	}
 

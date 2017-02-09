@@ -23,15 +23,16 @@ public class NetworkPlayerController : NetworkBehaviour {
 
 	public bool isJumping = false;
 
-	public GameObject characterBody;
+	GameObject cam;
 	public Vector3 spawnpoint;
 
 	void Start() {
-		rb = characterBody.GetComponent<Rigidbody> ();
-		targetDirection = transform.localRotation.eulerAngles;
-		targetCharacterDirection = characterBody.transform.localRotation.eulerAngles;
+		rb = GetComponent<Rigidbody> ();
+		cam = transform.Find("Main Camera").gameObject;
+		targetDirection = cam.transform.localRotation.eulerAngles;
+		targetCharacterDirection = transform.localRotation.eulerAngles;
 
-		health = characterBody.GetComponent<Health> ();
+		health = GetComponent<Health> ();
 		spawnpoint = transform.position;
 	}
 
@@ -49,7 +50,7 @@ public class NetworkPlayerController : NetworkBehaviour {
 	}
 
 	bool isGrounded() {
-		RaycastHit[] below = Physics.BoxCastAll(characterBody.transform.position, new Vector3(0.5f,0.5f,0.5f), Vector3.down, characterBody.GetComponent<Transform>().rotation,0.05f);
+		RaycastHit[] below = Physics.BoxCastAll(transform.position, new Vector3(0.5f,0.5f,0.5f), Vector3.down, GetComponent<Transform>().rotation,0.05f);
 		if (Array.Exists(below, e => e.transform.tag == "Wall")) {
 			return true;
 		}
@@ -91,16 +92,16 @@ public class NetworkPlayerController : NetworkBehaviour {
 			_mouseAbsolute.x = Mathf.Clamp(_mouseAbsolute.x, -clampInDegrees.x * 0.5f, clampInDegrees.x * 0.5f);
 
 		var xRotation = Quaternion.AngleAxis(-_mouseAbsolute.y, targetOrientation * Vector3.right);
-		transform.localRotation = xRotation;
+		cam.transform.localRotation = xRotation;
 
 		if (clampInDegrees.y < 360)
 			_mouseAbsolute.y = Mathf.Clamp(_mouseAbsolute.y, -clampInDegrees.y * 0.5f, clampInDegrees.y * 0.5f);
 
-		transform.localRotation *= targetOrientation;
+		cam.transform.localRotation *= targetOrientation;
 
-		var yRotation = Quaternion.AngleAxis(_mouseAbsolute.x, characterBody.transform.up);
-		characterBody.transform.localRotation = yRotation;
-		characterBody.transform.localRotation *= targetCharacterOrientation;
+		var yRotation = Quaternion.AngleAxis(_mouseAbsolute.x, transform.up);
+		transform.localRotation = yRotation;
+		transform.localRotation *= targetCharacterOrientation;
 
 		if (transform.position.y < -100) {
 			health.UpdateHealth (-10);
@@ -109,22 +110,22 @@ public class NetworkPlayerController : NetworkBehaviour {
 
 	void Move() {
 		if (Input.GetKey (KeyCode.W)) {
-			characterBody.transform.Translate (Vector3.forward * moveLength(transform.forward));
+			transform.Translate (Vector3.forward * moveLength(cam.transform.forward));
 		}
 		if (Input.GetKey (KeyCode.A)) {
-			characterBody.transform.Translate (Vector3.left * moveLength(-transform.right));
+			transform.Translate (Vector3.left * moveLength(-cam.transform.right));
 		}
 		if (Input.GetKey(KeyCode.S)) {
-			characterBody.transform.Translate (Vector3.back * moveLength(-transform.forward));
+			transform.Translate (Vector3.back * moveLength(-cam.transform.forward));
 		}
 		if (Input.GetKey (KeyCode.D)) {
-			characterBody.transform.Translate (Vector3.right * moveLength(transform.right));
+			transform.Translate (Vector3.right * moveLength(cam.transform.right));
 		}
 	}
 
 	float moveLength (Vector3 direction) {
 		for(var j = movementspeed*Time.deltaTime; j >= 0; j-=Time.deltaTime) {
-			RaycastHit[] box = Physics.BoxCastAll (transform.position, transform.localScale/2, direction, new Quaternion(0, 0, 0, 0), j);
+			RaycastHit[] box = Physics.BoxCastAll (cam.transform.position, cam.transform.localScale/2, direction, new Quaternion(0, 0, 0, 0), j);
 			if (!Array.Exists(box, e => e.transform.tag == "Wall")) {
 				return j;
 			}
@@ -133,7 +134,7 @@ public class NetworkPlayerController : NetworkBehaviour {
 	}
 
 	void Respawn() {
-		characterBody.transform.position = spawnpoint;
+		transform.position = spawnpoint;
 		health.SetHealth (1000);
 	}
 

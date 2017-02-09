@@ -235,6 +235,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 80, y: 0, z: 0}
+--- !u!1 &587580809 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1322228661110388, guid: 372d3707ac759430ca49354af256101b,
+    type: 2}
+  m_PrefabInternal: {fileID: 2083114525}
 --- !u!1 &920719022
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,6 +323,40 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1338065604 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1779211603658076, guid: 85adfec38c3b64dee9627952070abc11,
+    type: 2}
+  m_PrefabInternal: {fileID: 2018810628}
+--- !u!114 &1338065605 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114651719511216468, guid: 85adfec38c3b64dee9627952070abc11,
+    type: 2}
+  m_PrefabInternal: {fileID: 2018810628}
+  m_Script: {fileID: 11500000, guid: 8f4570c09fdf54713a7036e1417425d7, type: 3}
+--- !u!114 &1338065611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1338065604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dad1a72d5cb7e4da7838d80b76768149, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clampInDegrees: {x: 360, y: 180}
+  lockCursor: 0
+  sensitivity: {x: 1, y: 1}
+  smoothing: {x: 3, y: 3}
+  targetDirection: {x: 0, y: 0}
+  targetCharacterDirection: {x: 0, y: 0}
+  movementspeed: 10
+  jumpSpeed: 100
+  maxWall: 0
+  health: {fileID: 1338065605}
+  isJumping: 0
+  spawnpoint: {x: 0, y: 0, z: 0}
 --- !u!1 &1706029444
 GameObject:
   m_ObjectHideFlags: 0
@@ -532,7 +571,13 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114651719511216468, guid: 85adfec38c3b64dee9627952070abc11,
+        type: 2}
+      propertyPath: lowHealthOverlay
+      value: 
+      objectReference: {fileID: 587580809}
+    m_RemovedComponents:
+    - {fileID: 114134103111506528, guid: 85adfec38c3b64dee9627952070abc11, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 85adfec38c3b64dee9627952070abc11, type: 2}
   m_IsPrefabParent: 0
 --- !u!1001 &2083114525
@@ -639,12 +684,12 @@ Prefab:
     - target: {fileID: 224598644930034816, guid: 372d3707ac759430ca49354af256101b,
         type: 2}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224598644930034816, guid: 372d3707ac759430ca49354af256101b,
         type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 372d3707ac759430ca49354af256101b, type: 2}
