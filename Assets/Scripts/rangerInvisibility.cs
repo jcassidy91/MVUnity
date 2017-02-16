@@ -5,39 +5,41 @@ using UnityEngine;
 public class rangerInvisibility : MonoBehaviour {
 
 	public GameObject player;
-	byte red = 255;
-	byte blue = 54;
-	byte green = 54;
-	float invisTimer = 30; // Change the # to change the cooldown length
-	IEnumerator co;
+	private byte red = 255;
+	private byte blue = 54;
+	private byte green = 54;
+	private float starttime = 30;	// Change the # to change the cooldown length
+	private float invisTimer = 30;
+	private IEnumerator coroutine;
 	bool stopped;
 
 	// Use this for initialization
 	void Start () {
-		co = Time ();
-		StartCoroutine (co);
+		coroutine = TimerTimer ();
+		StartCoroutine (coroutine);
 	}
 
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButton (1) && invisTimer == 0) {
+		if (Input.GetMouseButton (1) && stopped == true) {
+			StopAllCoroutines ();
 			StartCoroutine (Invis ());
 		}
-		if (invisTimer == 0) {
-			Debug.Log ("Ready"); // Can replace with something
-			StopCoroutine(co);
+		if (stopped == true) {
+			Debug.Log ("Ready");
 		}
 
 	}
 
 	IEnumerator Invis() {
+		coroutine = TimerTimer ();
 		player.GetComponent<Renderer> ().material.color = new Color32 (red, green, blue, 15);
 		yield return new WaitForSeconds (6); // Change the # in () to change how long invis lasts
 		player.GetComponent<Renderer> ().material.color = new Color32 (red, green, blue, 255);
 
-		invisTimer = 30; // Change the # to change the cooldown length
-		StartCoroutine (co);
-		Debug.Log ("Not Ready"); // Can replace with something
+		invisTimer = starttime; 
+		stopped = false;
+		StartCoroutine (coroutine);
 	}
 
 //	IEnumerator Time() {
@@ -54,15 +56,20 @@ public class rangerInvisibility : MonoBehaviour {
 	IEnumerator TimerTimer() {
 		Debug.Log ("Not Ready");
 
-		invisTimer = 30;
+		invisTimer = starttime;
 		stopped = false;
-		do {
-			yield return new WaitForSeconds(1);
-			invisTimer -= 1;
-			while(!stopped && invisTimer > 0) {
 
-			}
+		while (!stopped && invisTimer > 0) {
+			yield return new WaitForSeconds (1);
+			invisTimer -= 1;
+			Debug.Log (invisTimer);
+
+		} 
+
+		if(invisTimer <= 0) {
+			stopped = true;
 		}
+
 	}
 
 }
