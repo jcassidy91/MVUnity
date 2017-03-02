@@ -469,6 +469,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dps: 10
+  collided: 0
+  collider: {fileID: 0}
 --- !u!23 &1946817855
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -690,6 +692,33 @@ Prefab:
         type: 2}
       propertyPath: m_AnchorMax.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224473068777041388, guid: 372d3707ac759430ca49354af256101b,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -149.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 224473068777041388, guid: 372d3707ac759430ca49354af256101b,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -296.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 224826504625393060, guid: 372d3707ac759430ca49354af256101b,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114529384001138176, guid: 372d3707ac759430ca49354af256101b,
+        type: 2}
+      propertyPath: m_Text
+      value: 'Health
+
+'
+      objectReference: {fileID: 0}
+    - target: {fileID: 224826504625393060, guid: 372d3707ac759430ca49354af256101b,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 13.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 372d3707ac759430ca49354af256101b, type: 2}

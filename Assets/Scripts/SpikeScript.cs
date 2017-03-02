@@ -5,6 +5,8 @@ using UnityEngine;
 public class SpikeScript : MonoBehaviour {
 
 	public float dps = 10;
+	public bool collided = false;
+	public GameObject collider;
 
 	void Start () {
 		
@@ -12,14 +14,20 @@ public class SpikeScript : MonoBehaviour {
 
 
 	void Update () {
-		
+		if (collided) {
+			Health health = collider.GetComponent<Health> ();
+			health.UpdateHealth (-dps);
+		}
 	}
 
 	void OnCollisionEnter (Collision col) {
 		if (col.gameObject.tag == "Player") {
-			var health = col.gameObject.GetComponent<Health> ();
-			health.UpdateHealth (-dps);
+			collided = true;
+			collider = col.gameObject;
 		}
+	}
 
+	void OnCollisionExit (Collision col) {
+		collided = false;
 	}
 }
