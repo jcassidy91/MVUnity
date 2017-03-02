@@ -3,28 +3,49 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class health : MonoBehaviour {
+public class Health : MonoBehaviour {
 
 	public float maxHealth;
-	public Slider healthBar;
-	public Text HealthText;
-	float hp;
+	Slider healthBar;
+	Text healthText;
+	float health;
+	GameObject lowHealthOverlay;
 
-	void Start () 
-	{
-		hp = maxHealth;
-	}
-
-	void TakeDamage (float amount) 
-	{
-		hp -= amount;
-		hp = Mathf.Max (hp, 0);
+	void Start () {
+		health = maxHealth;
+		healthBar = GameObject.Find ("PlayerHealthBar").GetComponent<Slider>();
+		healthText = GameObject.Find ("HealthText").GetComponent<Text>();
+		lowHealthOverlay = GameObject.Find ("HUD/LowHealthOverlay");
+		//SetHealthOverlay (false);
 		UpdateSlider ();
 	}
 
-	void UpdateSlider () 
-	{
-		healthBar.value = hp / maxHealth;
-		HealthText.text = hp + "/" + maxHealth;
+	void UpdateSlider () {
+		healthBar.value = health / maxHealth;
+		healthText.text = health + " / " + maxHealth;
+	}
+
+	public void UpdateHealth (float amount) {
+		health += amount;
+		health = Mathf.Max (health, 0);
+		UpdateSlider ();
+	}
+
+	public void SetHealth (float amount) {
+		health = amount;
+		health = Mathf.Max (health, 0);
+		UpdateSlider ();
+	}
+
+	public float GetHealth () {
+		return health;
+	}
+
+	public float GetMaxHealth () {
+		return maxHealth;
+	}
+
+	public void SetHealthOverlay(bool on) {
+		lowHealthOverlay.SetActive (on);
 	}
 }
