@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour {
 		Look ();
 		Move ();
 		Jump ();
-
+		Shoot ();
 	}
 
 	bool isGrounded() {
@@ -126,9 +126,16 @@ public class PlayerController : MonoBehaviour {
 		return 0;
 	}
 
-	void Respawn() {
+	void Respawn () {
 		transform.position = spawnpoint;
 		health.SetHealth (1000);
+	}
+
+	void Shoot () {
+		if (Input.GetKey (KeyCode.Mouse0)) {
+			var gs = GetComponent<GunScript> ();
+			StartCoroutine (gs.Shoot ());
+		}
 	}
 
 }

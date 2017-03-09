@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 using UnityEngine;
 
-public class GunScript : MonoBehaviour {
+public class NetworkGunScript : NetworkBehaviour {
 
 	GameObject cam;
 	LineRenderer lr;
@@ -13,17 +14,10 @@ public class GunScript : MonoBehaviour {
 		lr.enabled = false;
 	}
 
-	void Update () {
-		if (Input.GetKeyDown (KeyCode.Mouse0)) {
-			StartCoroutine (Shoot ());
-		}
-	}
-
-	public IEnumerator Shoot () {
-		lr.enabled = true;
-		yield return new WaitForSeconds (0.01f);
+	[Command]
+	public void CmdShoot () {
+		StartCoroutine (wait ());
 		RaycastBullet ();
-		lr.enabled = false;
 	}
 
 	void RaycastBullet () {
@@ -33,9 +27,15 @@ public class GunScript : MonoBehaviour {
 		if (Physics.Raycast (ray, out hit)) {
 			Health health = hit.transform.GetComponent<Health> ();
 			if (health != null) {
-				Debug.Log ("Pew");
+				
 				health.UpdateHealth (-1);
 			}
 		}
+	}
+
+	IEnumerator wait () {
+		lr.enabled = true;
+		yield return new WaitForSeconds (0.1f);
+		lr.enabled = false;
 	}
 }

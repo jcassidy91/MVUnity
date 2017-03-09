@@ -47,6 +47,7 @@ public class NetworkPlayerController : NetworkBehaviour {
 		Look ();
 		Move ();
 		Jump ();
+		Shoot ();
 	}
 
 	bool isGrounded() {
@@ -136,6 +137,13 @@ public class NetworkPlayerController : NetworkBehaviour {
 	void Respawn() {
 		transform.position = spawnpoint;
 		health.SetHealth (1000);
+	}
+
+	void Shoot () {
+		if (Input.GetKey (KeyCode.Mouse0)) {
+			var gs = GetComponent<NetworkGunScript> ();
+			gs.CmdShoot ();
+		}
 	}
 
 }
