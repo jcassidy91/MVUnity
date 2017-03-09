@@ -4,25 +4,37 @@ using UnityEngine;
 
 public class GunScript : MonoBehaviour {
 
-	GameObject player;
+	GameObject cam;
+	LineRenderer lr;
 
 	void Start () {
-		player = gameObject;
+		cam = transform.GetChild (0).gameObject;
+		lr = cam.GetComponent<LineRenderer> ();
+		lr.enabled = false;
 	}
 
 	void Update () {
-		Shoot ();
+		if (Input.GetKeyDown (KeyCode.Mouse0)) {
+			StartCoroutine (Shoot ());
+		}
 	}
 
-	void Shoot() {
+	IEnumerator Shoot () {
+		lr.enabled = true;
+		yield return new WaitForSeconds (0.01f);
+		RaycastBullet ();
+		lr.enabled = false;
+	}
 
-		if (Input.GetKey (KeyCode.Mouse0)) {
+	void RaycastBullet () {
+		Ray ray = cam.GetComponent<Camera> ().ScreenPointToRay (Input.mousePosition);
+		RaycastHit hit;
 
-
-			var pos = player.transform.position;
-			var rot = new Vector3(player.transform.eulerAngles.x, GameObject.Find("Main Camera").transform.eulerAngles.y, player.transform.eulerAngles.z);
-			Debug.DrawRay (pos, rot, Color.blue, 2, true);
+		if (Physics.Raycast (ray, out hit)) {
+			Health health = hit.transform.GetComponent<Health> ();
+			if (health != null) {
+				health.UpdateHealth (-1);
+			}
 		}
-
 	}
 }
