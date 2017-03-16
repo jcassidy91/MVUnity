@@ -8,11 +8,6 @@ public class SpikeScript : MonoBehaviour {
 	public bool collided = false;
 	public GameObject collider;
 
-	void Start () {
-		
-	}
-
-
 	void Update () {
 		if (collided) {
 			Health health = collider.GetComponent<Health> ();
