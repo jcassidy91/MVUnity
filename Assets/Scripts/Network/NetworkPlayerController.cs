@@ -21,8 +21,9 @@ public class NetworkPlayerController : NetworkBehaviour {
 	Vector2 smoothing = new Vector2(3, 3);
 	Vector2 clampInDegrees = new Vector2(360, 180);
 	Vector2 targetDirection, targetCharacterDirection, _mouseAbsolute, _smoothMouse;
-	NetworkHealth health;
+
 	Vector3 spawnpoint;
+	NetworkHealth health;
 	Slider healthBar;
 	Text healthText;
 
@@ -39,6 +40,7 @@ public class NetworkPlayerController : NetworkBehaviour {
 		healthBar = hud.transform.FindChild ("PlayerHealthBar").GetComponent<Slider> ();
 		healthText = healthBar.transform.gameObject.transform.FindChild ("HealthText").GetComponent<Text> ();
 		lowHealthOverlay = hud.transform.FindChild ("LowHealthOverlay").gameObject;
+		lowHealthOverlay.SetActive (false);
 	}
 
 	void Update() {
@@ -65,7 +67,7 @@ public class NetworkPlayerController : NetworkBehaviour {
 			Respawn ();
 		}
 		SetHealthOverlay(health.GetHealth() < health.GetMaxHealth() / 10);
-		UpdateHealthSlider ();
+		//health.UpdateHealthSlider ();
 	}
 
 	void Look() {
@@ -105,7 +107,7 @@ public class NetworkPlayerController : NetworkBehaviour {
 
 	void Shoot () {
 		if (Input.GetKeyDown (KeyCode.Mouse0)) {
-			ShootRay ();
+			CmdShootRay ();
 			isShooting = true;
 		}
 		lr.enabled = isShooting;
@@ -133,12 +135,14 @@ public class NetworkPlayerController : NetworkBehaviour {
 		return 0;
 	}
 
-	void ShootRay() {
+	[Command]
+	void CmdShootRay() {
 		Ray ray = cam.GetComponent<Camera> ().ScreenPointToRay (Input.mousePosition);
 		RaycastHit hit;
 		if (Physics.Raycast (ray, out hit)) {
-			Health health = hit.transform.GetComponent<Health> ();
+			NetworkHealth health = hit.transform.GetComponent<NetworkHealth> ();
 			if (health != null) {
+				Debug.Log ("update health");
 				health.UpdateHealth (-1);
 			}
 		}
@@ -149,13 +153,8 @@ public class NetworkPlayerController : NetworkBehaviour {
 		return Array.Exists (below, e => !e.transform.GetComponent<Collider>().name.Contains("Player"));
 	}
 
-	void UpdateHealthSlider () {
-		healthBar.value = health.GetHealth () / health.GetMaxHealth();
-		healthText.text = health.GetHealth() + " / " + health.GetMaxHealth ();
-	}
-
 	void SetHealthOverlay(bool on) {
-		lowHealthOverlay.SetActive (on);
+		//lowHealthOverlay.SetActive (on);
 	}
 
 }

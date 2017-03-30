@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 114106607802389806}
   - component: {fileID: 114219004279526706}
   - component: {fileID: 114688342547105116}
+  - component: {fileID: 114018140927191856}
   m_Layer: 0
   m_Name: NetworkPlayer
   m_TagString: Player
@@ -312,6 +313,26 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1372841663580552}
   m_Enabled: 1
+--- !u!114 &114018140927191856
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1839663717056402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: dc443db3e92b4983b9738c1131f555cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 3
+  m_SendInterval: 0.033333335
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: 0.001
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &114106607802389806
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -564,7 +585,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90ff289d26bd14ac6b303afca5cd7542, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthBar: {fileID: 0}
   maxHealth: 1000
+  health: 0
 --- !u!114 &114925357846496694
 MonoBehaviour:
   m_ObjectHideFlags: 1
