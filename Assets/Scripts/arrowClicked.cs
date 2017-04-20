@@ -29,6 +29,6 @@ public class arrowClicked : MonoBehaviour {
 		}
 
 		Debug.Log (characterClass);
-		Application.LoadLevel ("TestScene");
+		Application.LoadLevel ("TestingInvisibility");
 	}
 }

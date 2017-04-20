@@ -177,7 +177,7 @@ MonoBehaviour:
   pointLight: {fileID: 465758438}
   button: {fileID: 1546926858}
   box: {fileID: 795711829}
-  rotatePosition: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  rotatePosition: {x: 0, y: 0, z: 0, w: 0}
 --- !u!65 &442007255
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -705,7 +705,7 @@ MonoBehaviour:
   pointLight: {fileID: 465758438}
   button: {fileID: 1546926858}
   box: {fileID: 795711829}
-  rotatePosition: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  rotatePosition: {x: 0, y: 0, z: 0, w: 0}
 --- !u!65 &1470918759
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -963,7 +963,7 @@ MonoBehaviour:
   pointLight: {fileID: 465758438}
   button: {fileID: 1546926858}
   box: {fileID: 795711829}
-  rotatePosition: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  rotatePosition: {x: 0, y: 0, z: 0, w: 0}
 --- !u!65 &1585279033
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -995,7 +995,7 @@ MonoBehaviour:
   pointLight: {fileID: 465758438}
   button: {fileID: 1546926858}
   box: {fileID: 795711829}
-  rotatePosition: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  rotatePosition: {x: 0, y: 0, z: 0, w: 0}
 --- !u!65 &1629874342
 BoxCollider:
   m_ObjectHideFlags: 0

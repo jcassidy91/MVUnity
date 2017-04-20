@@ -42,17 +42,6 @@ public class rangerInvisibility : MonoBehaviour {
 		StartCoroutine (coroutine);
 	}
 
-//	IEnumerator Time() {
-//
-//		Debug.Log ("Not Ready"); // Can replace with something
-//
-//		while (invisTimer > 0) {
-//			Debug.Log (invisTimer);
-//			invisTimer -= 1;
-//			yield return new WaitForSeconds (1);
-//		}
-//	}
-
 	IEnumerator TimerTimer() {
 		Debug.Log ("Not Ready");
 
