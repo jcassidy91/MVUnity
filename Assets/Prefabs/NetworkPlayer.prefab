@@ -701,7 +701,7 @@ LineRenderer:
     numCapVertices: 0
     alignment: 0
     textureMode: 0
-  m_UseWorldSpace: 0
+  m_UseWorldSpace: 1
 --- !u!124 &124388425005278004
 Behaviour:
   m_ObjectHideFlags: 1

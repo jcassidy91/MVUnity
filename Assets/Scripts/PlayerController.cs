@@ -135,6 +135,7 @@ public class PlayerController : MonoBehaviour {
 		Ray ray = cam.GetComponent<Camera> ().ScreenPointToRay (Input.mousePosition);
 		RaycastHit hit;
 		if (Physics.Raycast (ray, out hit)) {
+			Debug.Log (hit.transform.name);
 			Health health = hit.transform.GetComponent<Health> ();
 			if (health != null) {
 				health.UpdateHealth (-1);

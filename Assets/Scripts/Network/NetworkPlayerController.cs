@@ -27,6 +27,9 @@ public class NetworkPlayerController : NetworkBehaviour {
 	Slider healthBar;
 	Text healthText;
 
+	bool clientraycast;
+	bool serverraycast;
+
 	void Start() {
 		rb = GetComponent<Rigidbody> ();
 		cam = transform.Find("Main Camera").gameObject;
@@ -44,17 +47,26 @@ public class NetworkPlayerController : NetworkBehaviour {
 	}
 
 	void Update() {
-		if (!isLocalPlayer) return;
+		if (!isLocalPlayer) {
+			return;
+		}
 		ManageHealth ();
 		Look ();
 		Move ();
 		Jump ();
 		Shoot ();
+
+		Debug.Log ((serverraycast == clientraycast).ToString());
+	}
+
+	[Command]
+	public void CmdSayYup () {
+		Debug.Log("Yup");
 	}
 
 	// FUNCTIONS
 
-	void Jump() {
+	void Jump () {
 		if (Input.GetKeyDown (KeyCode.Space)) {
 			if (isGrounded()) {
 				rb.AddForce(Vector3.up*jumpSpeed*4);
@@ -62,7 +74,7 @@ public class NetworkPlayerController : NetworkBehaviour {
 		}
 	}
 
-	void ManageHealth() {
+	void ManageHealth () {
 		if (health.GetHealth() == 0) {
 			Respawn ();
 		}
@@ -70,7 +82,7 @@ public class NetworkPlayerController : NetworkBehaviour {
 		//health.UpdateHealthSlider ();
 	}
 
-	void Look() {
+	void Look () {
 		Screen.lockCursor = lockCursor;
 		var targetOrientation = Quaternion.Euler(targetDirection);
 		var targetCharacterOrientation = Quaternion.Euler(targetCharacterDirection);
@@ -88,9 +100,11 @@ public class NetworkPlayerController : NetworkBehaviour {
 		transform.localRotation = yRotation;
 		transform.localRotation *= targetCharacterOrientation;
 		if (cam.transform.position.y < -100) health.UpdateHealth (-10);
+
+		clientraycast = Physics.Raycast (new Ray (cam.transform.position, cam.transform.forward));
 	}
 
-	void Move() {
+	void Move () {
 		if (Input.GetKey (KeyCode.W)) {
 			transform.Translate (Vector3.forward * moveLength(cam.transform.forward));
 		}
@@ -107,7 +121,10 @@ public class NetworkPlayerController : NetworkBehaviour {
 
 	void Shoot () {
 		if (Input.GetKeyDown (KeyCode.Mouse0)) {
-			CmdShootRay ();
+			Ray ray = new Ray(transform.position, transform.forward);
+			lr.SetPosition (0, this.transform.position);
+			lr.SetPosition (1, this.transform.position + this.transform.forward * 1000f);
+			CmdShootRay (ray);
 			isShooting = true;
 		}
 		lr.enabled = isShooting;
@@ -136,11 +153,15 @@ public class NetworkPlayerController : NetworkBehaviour {
 	}
 
 	[Command]
-	void CmdShootRay() {
-		Ray ray = cam.GetComponent<Camera> ().ScreenPointToRay (Input.mousePosition);
+	public void CmdShootRay(Ray ray) {
+		//Ray ray = cam.GetComponent<Camera> ().ScreenPointToRay (Input.mousePosition);
 		RaycastHit hit;
+		Debug.Log (ray);
+		Debug.DrawRay (ray.origin, ray.direction, Color.green);
+		Debug.Log (Physics.Raycast (ray, out hit));
 		if (Physics.Raycast (ray, out hit)) {
 			NetworkHealth health = hit.transform.GetComponent<NetworkHealth> ();
+			Debug.Log(hit.transform.name);
 			if (health != null) {
 				Debug.Log ("update health");
 				health.UpdateHealth (-1);

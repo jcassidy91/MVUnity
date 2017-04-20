@@ -14,16 +14,21 @@ public class NetworkHealth : NetworkBehaviour {
 	public float health;
 
 	void Start () {
+		Debug.Log (maxHealth);
 		health = maxHealth;
+		Debug.Log (health);
 
-		hud = transform.Find ("HUD").gameObject;
-		healthBar = hud.transform.FindChild ("PlayerHealthBar").GetComponent<Slider> ();
-		healthText = healthBar.transform.gameObject.transform.FindChild ("HealthText").GetComponent<Text> ();
+		if (transform.Find ("HUD") != null) {
+			hud = transform.Find ("HUD").gameObject;
+			healthBar = hud.transform.FindChild ("PlayerHealthBar").GetComponent<Slider> ();
+			healthText = healthBar.transform.FindChild ("HealthText").GetComponent<Text> ();
+		}
+
 	}
 
 	public void UpdateHealth (float amount) {
 		if (!isServer) return;
-		Debug.Log ("updating health");
+		Debug.Log ("server!");
 		health += amount;
 		health = Mathf.Max (health, 0);
 	}
@@ -43,12 +48,15 @@ public class NetworkHealth : NetworkBehaviour {
 	}
 
 	void UpdateHealthSlider (float h) {
+		if (!isLocalPlayer) return;
 
 //		hud = transform.Find ("HUD").gameObject;
 //		healthBar = hud.transform.FindChild ("PlayerHealthBar").GetComponent<Slider> ();
 //		healthText = healthBar.transform.gameObject.transform.FindChild ("HealthText").GetComponent<Text> ();
 
-		healthBar.value = h / GetMaxHealth();
-		healthText.text = h + " / " + GetMaxHealth ();
+		if (healthBar != null && healthText != null) {
+			healthBar.value = h / GetMaxHealth();
+			healthText.text = h + " / " + GetMaxHealth ();
+		}
 	}
 }
