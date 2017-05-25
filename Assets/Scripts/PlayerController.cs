@@ -35,8 +35,6 @@ public class PlayerController : MonoBehaviour {
 		spawnpoint = cam.transform.position;
 		isShooting = false;
 		hud = transform.Find ("HUD").gameObject;
-		healthBar = hud.transform.FindChild ("PlayerHealthBar").GetComponent<Slider> ();
-		healthText = healthBar.transform.gameObject.transform.FindChild ("HealthText").GetComponent<Text> ();
 		lowHealthOverlay = hud.transform.FindChild ("LowHealthOverlay").gameObject;
 	}
 
@@ -62,8 +60,7 @@ public class PlayerController : MonoBehaviour {
 		if (health.GetHealth() == 0) {
 			Respawn ();
 		}
-		SetHealthOverlay(health.GetHealth() < health.GetMaxHealth() / 10);
-		UpdateHealthSlider ();
+		if (cam.transform.position.y < -100) health.UpdateHealth (-10);
 	}
 
 	void Look() {
@@ -146,11 +143,6 @@ public class PlayerController : MonoBehaviour {
 	bool isGrounded() {
 		RaycastHit[] below = Physics.BoxCastAll(transform.position, new Vector3(0.5f,0.5f,0.5f), Vector3.down, GetComponent<Transform>().rotation, 0.05f);
 		return Array.Exists (below, e => e.transform.GetComponent<Collider>().name != "Player");
-	}
-
-	void UpdateHealthSlider () {
-		healthBar.value = health.GetHealth () / health.GetMaxHealth();
-		healthText.text = health.GetHealth() + " / " + health.GetMaxHealth ();
 	}
 
 	void SetHealthOverlay(bool on) {

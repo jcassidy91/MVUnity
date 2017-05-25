@@ -27,9 +27,6 @@ public class NetworkPlayerController : NetworkBehaviour {
 	Slider healthBar;
 	Text healthText;
 
-	bool clientraycast;
-	bool serverraycast;
-
 	void Start() {
 		rb = GetComponent<Rigidbody> ();
 		cam = transform.Find("Main Camera").gameObject;
@@ -40,8 +37,6 @@ public class NetworkPlayerController : NetworkBehaviour {
 		spawnpoint = cam.transform.position;
 		isShooting = false;
 		hud = transform.Find ("HUD").gameObject;
-		healthBar = hud.transform.FindChild ("PlayerHealthBar").GetComponent<Slider> ();
-		healthText = healthBar.transform.gameObject.transform.FindChild ("HealthText").GetComponent<Text> ();
 		lowHealthOverlay = hud.transform.FindChild ("LowHealthOverlay").gameObject;
 		lowHealthOverlay.SetActive (false);
 	}
@@ -51,17 +46,9 @@ public class NetworkPlayerController : NetworkBehaviour {
 			return;
 		}
 		ManageHealth ();
-		Look ();
 		Move ();
 		Jump ();
 		Shoot ();
-
-		Debug.Log ((serverraycast == clientraycast).ToString());
-	}
-
-	[Command]
-	public void CmdSayYup () {
-		Debug.Log("Yup");
 	}
 
 	// FUNCTIONS
@@ -78,30 +65,7 @@ public class NetworkPlayerController : NetworkBehaviour {
 		if (health.GetHealth() == 0) {
 			Respawn ();
 		}
-		SetHealthOverlay(health.GetHealth() < health.GetMaxHealth() / 10);
-		//health.UpdateHealthSlider ();
-	}
-
-	void Look () {
-		Screen.lockCursor = lockCursor;
-		var targetOrientation = Quaternion.Euler(targetDirection);
-		var targetCharacterOrientation = Quaternion.Euler(targetCharacterDirection);
-		var mouseDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
-		mouseDelta = Vector2.Scale(mouseDelta, new Vector2(sensitivity.x * smoothing.x, sensitivity.y * smoothing.y));
-		_smoothMouse.x = Mathf.Lerp(_smoothMouse.x, mouseDelta.x, 1f / smoothing.x);
-		_smoothMouse.y = Mathf.Lerp(_smoothMouse.y, mouseDelta.y, 1f / smoothing.y);
-		_mouseAbsolute += _smoothMouse;
-		if (clampInDegrees.x < 360) _mouseAbsolute.x = Mathf.Clamp(_mouseAbsolute.x, -clampInDegrees.x * 0.5f, clampInDegrees.x * 0.5f);
-		var xRotation = Quaternion.AngleAxis(-_mouseAbsolute.y, targetOrientation * Vector3.right);
-		cam.transform.localRotation = xRotation;
-		if (clampInDegrees.y < 360) _mouseAbsolute.y = Mathf.Clamp(_mouseAbsolute.y, -clampInDegrees.y * 0.5f, clampInDegrees.y * 0.5f);
-		cam.transform.localRotation *= targetOrientation;
-		var yRotation = Quaternion.AngleAxis(_mouseAbsolute.x, transform.up);
-		transform.localRotation = yRotation;
-		transform.localRotation *= targetCharacterOrientation;
 		if (cam.transform.position.y < -100) health.UpdateHealth (-10);
-
-		clientraycast = Physics.Raycast (new Ray (cam.transform.position, cam.transform.forward));
 	}
 
 	void Move () {
@@ -154,17 +118,12 @@ public class NetworkPlayerController : NetworkBehaviour {
 
 	[Command]
 	public void CmdShootRay(Ray ray) {
-		//Ray ray = cam.GetComponent<Camera> ().ScreenPointToRay (Input.mousePosition);
 		RaycastHit hit;
-		Debug.Log (ray);
 		Debug.DrawRay (ray.origin, ray.direction, Color.green);
-		Debug.Log (Physics.Raycast (ray, out hit));
 		if (Physics.Raycast (ray, out hit)) {
 			NetworkHealth health = hit.transform.GetComponent<NetworkHealth> ();
-			Debug.Log(hit.transform.name);
 			if (health != null) {
-				Debug.Log ("update health");
-				health.UpdateHealth (-1);
+				health.UpdateHealth (-10);
 			}
 		}
 	}
@@ -172,10 +131,6 @@ public class NetworkPlayerController : NetworkBehaviour {
 	bool isGrounded() {
 		RaycastHit[] below = Physics.BoxCastAll(transform.position, new Vector3(0.5f,0.5f,0.5f), Vector3.down, GetComponent<Transform>().rotation, 0.05f);
 		return Array.Exists (below, e => !e.transform.GetComponent<Collider>().name.Contains("Player"));
-	}
-
-	void SetHealthOverlay(bool on) {
-		//lowHealthOverlay.SetActive (on);
 	}
 
 }

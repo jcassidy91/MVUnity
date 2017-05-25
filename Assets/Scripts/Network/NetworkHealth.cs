@@ -5,58 +5,49 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class NetworkHealth : NetworkBehaviour {
-	public Slider healthBar;
-	Text healthText;
-	GameObject hud;
+	public RectTransform healthBar;
+	public GameObject healthCanvas;
 
-	public float maxHealth;
-	[SyncVar (hook = "UpdateHealthSlider")]
-	public float health;
+	public const float maxHealth = 100;
+	[SyncVar (hook = "OnUpdateHealth")]
+	public float currentHealth = maxHealth;
 
 	void Start () {
-		Debug.Log (maxHealth);
-		health = maxHealth;
-		Debug.Log (health);
-
-		if (transform.Find ("HUD") != null) {
-			hud = transform.Find ("HUD").gameObject;
-			healthBar = hud.transform.FindChild ("PlayerHealthBar").GetComponent<Slider> ();
-			healthText = healthBar.transform.FindChild ("HealthText").GetComponent<Text> ();
-		}
+		healthCanvas = transform.Find ("Healthbar Canvas").gameObject;
+		healthBar = healthCanvas.transform.FindChild ("HealthBackground").FindChild ("HealthForeground").GetComponent<RectTransform> ();
 
 	}
 
+	void Update() {
+		healthCanvas.transform.LookAt (Camera.main.transform);
+	}
+
 	public void UpdateHealth (float amount) {
-		if (!isServer) return;
-		Debug.Log ("server!");
-		health += amount;
-		health = Mathf.Max (health, 0);
+		currentHealth += amount;
+		currentHealth = Mathf.Max (currentHealth, 0);
+
+		if (currentHealth <= 0) {
+			currentHealth = 0;
+			Debug.Log ("Dead!");
+		}
 	}
 
 	public void SetHealth (float amount) {
 		if (!isServer) return;
-		health = amount;
-		health = Mathf.Max (health, 0);
+		currentHealth = amount;
+		currentHealth = Mathf.Max (currentHealth, 0);
 	}
 
 	public float GetHealth () {
-		return health;
+		return currentHealth;
 	}
 
 	public float GetMaxHealth () {
 		return maxHealth;
 	}
 
-	void UpdateHealthSlider (float h) {
-		if (!isLocalPlayer) return;
-
-//		hud = transform.Find ("HUD").gameObject;
-//		healthBar = hud.transform.FindChild ("PlayerHealthBar").GetComponent<Slider> ();
-//		healthText = healthBar.transform.gameObject.transform.FindChild ("HealthText").GetComponent<Text> ();
-
-		if (healthBar != null && healthText != null) {
-			healthBar.value = h / GetMaxHealth();
-			healthText.text = h + " / " + GetMaxHealth ();
-		}
+	void OnUpdateHealth (float h) {
+		if (!isServer) return;
+		healthBar.sizeDelta = new Vector2(h, healthBar.sizeDelta.y);
 	}
 }
