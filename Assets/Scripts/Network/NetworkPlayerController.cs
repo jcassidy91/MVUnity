@@ -16,11 +16,7 @@ public class NetworkPlayerController : NetworkBehaviour {
 
 	LineRenderer lr;
 	Rigidbody rb;
-	GameObject cam, hud, lowHealthOverlay;
-	Vector2 sensitivity = new Vector2(1, 1);
-	Vector2 smoothing = new Vector2(3, 3);
-	Vector2 clampInDegrees = new Vector2(360, 180);
-	Vector2 targetDirection, targetCharacterDirection, _mouseAbsolute, _smoothMouse;
+	GameObject cam;
 
 	Vector3 spawnpoint;
 	NetworkHealth health;
@@ -29,16 +25,11 @@ public class NetworkPlayerController : NetworkBehaviour {
 
 	void Start() {
 		rb = GetComponent<Rigidbody> ();
-		cam = transform.Find("Main Camera").gameObject;
-		targetDirection = cam.transform.localRotation.eulerAngles;
-		targetCharacterDirection = transform.localRotation.eulerAngles;
+		cam = Camera.main.gameObject;
 		lr = cam.GetComponent<LineRenderer> ();
 		health = GetComponent<NetworkHealth> ();
 		spawnpoint = cam.transform.position;
 		isShooting = false;
-		hud = transform.Find ("HUD").gameObject;
-		lowHealthOverlay = hud.transform.FindChild ("LowHealthOverlay").gameObject;
-		lowHealthOverlay.SetActive (false);
 	}
 
 	void Update() {
@@ -85,6 +76,7 @@ public class NetworkPlayerController : NetworkBehaviour {
 
 	void Shoot () {
 		if (Input.GetKeyDown (KeyCode.Mouse0)) {
+			Debug.Log ("Shoot");
 			Ray ray = new Ray(transform.position, transform.forward);
 			lr.SetPosition (0, this.transform.position);
 			lr.SetPosition (1, this.transform.position + this.transform.forward * 1000f);
@@ -120,9 +112,12 @@ public class NetworkPlayerController : NetworkBehaviour {
 	public void CmdShootRay(Ray ray) {
 		RaycastHit hit;
 		Debug.DrawRay (ray.origin, ray.direction, Color.green);
+		Debug.Log ("Shoot Ray");
 		if (Physics.Raycast (ray, out hit)) {
+			Debug.Log ("Ray Cast");
 			NetworkHealth health = hit.transform.GetComponent<NetworkHealth> ();
 			if (health != null) {
+				Debug.Log ("Raycast Not Null");
 				health.UpdateHealth (-10);
 			}
 		}

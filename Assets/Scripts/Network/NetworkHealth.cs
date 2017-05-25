@@ -13,12 +13,13 @@ public class NetworkHealth : NetworkBehaviour {
 	public float currentHealth = maxHealth;
 
 	void Start () {
-		healthCanvas = transform.Find ("Healthbar Canvas").gameObject;
+		//healthCanvas = transform.Find ("Healthbar Canvas").gameObject;
 		healthBar = healthCanvas.transform.FindChild ("HealthBackground").FindChild ("HealthForeground").GetComponent<RectTransform> ();
-
+		if (!isLocalPlayer) healthCanvas.SetActive (false);
 	}
 
 	void Update() {
+		if (!isLocalPlayer) return;
 		healthCanvas.transform.LookAt (Camera.main.transform);
 	}
 
