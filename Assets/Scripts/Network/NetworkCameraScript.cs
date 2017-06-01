@@ -12,7 +12,6 @@ public class NetworkCameraScript : NetworkBehaviour {
 	Vector2 targetDirection, targetCharacterDirection, _mouseAbsolute, _smoothMouse;
 	GameObject player;
 
-	// Use this for initialization
 	void Start () {
 		if (!GetComponentInParent<NetworkPlayerController> ().isLocalPlayer) {
 			gameObject.SetActive (false);
@@ -23,10 +22,10 @@ public class NetworkCameraScript : NetworkBehaviour {
 		targetCharacterDirection = player.transform.localRotation.eulerAngles;
 
 	}
-	
-	// Update is called once per frame
+
 	void Update () {
-		Screen.lockCursor = lockCursor;
+		Cursor.visible = !lockCursor;
+		Cursor.lockState = lockCursor ? CursorLockMode.Locked : CursorLockMode.None;
 		var targetOrientation = Quaternion.Euler(targetDirection);
 		var targetCharacterOrientation = Quaternion.Euler(targetCharacterDirection);
 		var mouseDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));

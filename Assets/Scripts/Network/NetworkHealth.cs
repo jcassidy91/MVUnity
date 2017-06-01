@@ -26,15 +26,10 @@ public class NetworkHealth : NetworkBehaviour {
 	public void UpdateHealth (float amount) {
 		currentHealth += amount;
 		currentHealth = Mathf.Max (currentHealth, 0);
-
-		if (currentHealth <= 0) {
-			currentHealth = 0;
-			Debug.Log ("Dead!");
-		}
 	}
 
 	public void SetHealth (float amount) {
-		if (!isServer) return;
+		Debug.Log ("Setting health to " + amount);
 		currentHealth = amount;
 		currentHealth = Mathf.Max (currentHealth, 0);
 	}
@@ -47,8 +42,10 @@ public class NetworkHealth : NetworkBehaviour {
 		return maxHealth;
 	}
 
-	void OnUpdateHealth (float h) {
-		if (!isServer) return;
+	public void OnUpdateHealth (float h) {
+		//if (!isServer) return;
+		currentHealth = h;
+		Debug.Log (h);
 		healthBar.sizeDelta = new Vector2(h, healthBar.sizeDelta.y);
 	}
 }

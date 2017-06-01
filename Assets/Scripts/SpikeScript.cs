@@ -6,11 +6,11 @@ public class SpikeScript : MonoBehaviour {
 
 	public float dps = 10;
 	public bool collided = false;
-	public GameObject collider;
+	public GameObject victim;
 
 	void Update () {
 		if (collided) {
-			Health health = collider.GetComponent<Health> ();
+			Health health = victim.GetComponent<Health> ();
 			health.UpdateHealth (-dps);
 		}
 	}
@@ -18,7 +18,7 @@ public class SpikeScript : MonoBehaviour {
 	void OnCollisionEnter (Collision col) {
 		if (col.gameObject.tag == "Player") {
 			collided = true;
-			collider = col.gameObject;
+			victim = col.gameObject;
 		}
 	}
 

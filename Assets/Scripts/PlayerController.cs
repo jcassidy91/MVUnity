@@ -60,11 +60,12 @@ public class PlayerController : MonoBehaviour {
 		if (health.GetHealth() == 0) {
 			Respawn ();
 		}
-		if (cam.transform.position.y < -100) health.UpdateHealth (-10);
+		if (transform.position.y < -100) health.UpdateHealth (-10);
 	}
 
 	void Look() {
-		Screen.lockCursor = lockCursor;
+		Cursor.visible = !lockCursor;
+		Cursor.lockState = lockCursor ? CursorLockMode.Locked : CursorLockMode.None;
 		var targetOrientation = Quaternion.Euler(targetDirection);
 		var targetCharacterOrientation = Quaternion.Euler(targetCharacterDirection);
 		var mouseDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
@@ -115,7 +116,9 @@ public class PlayerController : MonoBehaviour {
 
 	void Respawn () {
 		transform.position = spawnpoint;
-		health.SetHealth (1000);
+
+		health.SetHealth (100);
+		Debug.Log (health.GetHealth());
 	}
 
 	float moveLength (Vector3 direction) {

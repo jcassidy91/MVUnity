@@ -53,8 +53,8 @@ public class NetworkPlayerController : NetworkBehaviour {
 	}
 
 	void ManageHealth () {
-		if (health.GetHealth() == 0) {
-			Respawn ();
+		if (health.GetHealth() <= 0) {
+			CmdRespawn ();
 		}
 		if (cam.transform.position.y < -100) health.UpdateHealth (-10);
 	}
@@ -78,8 +78,8 @@ public class NetworkPlayerController : NetworkBehaviour {
 		if (Input.GetKeyDown (KeyCode.Mouse0)) {
 			Debug.Log ("Shoot");
 			Ray ray = new Ray(transform.position, transform.forward);
-			lr.SetPosition (0, this.transform.position);
-			lr.SetPosition (1, this.transform.position + this.transform.forward * 1000f);
+			lr.SetPosition (0, transform.position);
+			lr.SetPosition (1, transform.position + ray.direction.normalized * 1000f);
 			CmdShootRay (ray);
 			isShooting = true;
 		}
@@ -92,10 +92,11 @@ public class NetworkPlayerController : NetworkBehaviour {
 	}
 
 	// UTILITIES
-
-	void Respawn () {
+	[Command]
+	void CmdRespawn () {
+		Debug.Log ("Dead!");
 		transform.position = spawnpoint;
-		health.SetHealth (1000);
+		health.SetHealth (100);
 	}
 
 	float moveLength (Vector3 direction) {
@@ -111,14 +112,14 @@ public class NetworkPlayerController : NetworkBehaviour {
 	[Command]
 	public void CmdShootRay(Ray ray) {
 		RaycastHit hit;
-		Debug.DrawRay (ray.origin, ray.direction, Color.green);
 		Debug.Log ("Shoot Ray");
 		if (Physics.Raycast (ray, out hit)) {
 			Debug.Log ("Ray Cast");
-			NetworkHealth health = hit.transform.GetComponent<NetworkHealth> ();
-			if (health != null) {
-				Debug.Log ("Raycast Not Null");
-				health.UpdateHealth (-10);
+			NetworkHealth hitHealth = hit.transform.GetComponent<NetworkHealth> ();
+			if (hitHealth == health) return;
+			if (hitHealth != null) {
+				Debug.Log ("Updating Health");
+				hitHealth.UpdateHealth (-10);
 			}
 		}
 	}
