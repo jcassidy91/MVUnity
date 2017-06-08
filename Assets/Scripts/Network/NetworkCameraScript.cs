@@ -24,14 +24,15 @@ public class NetworkCameraScript : NetworkBehaviour {
 	}
 
 	void Update () {
+		if (!player.GetComponent<NetworkPlayerController>().isLocalPlayer) return;
 		Cursor.visible = !lockCursor;
 		Cursor.lockState = lockCursor ? CursorLockMode.Locked : CursorLockMode.None;
 		var targetOrientation = Quaternion.Euler(targetDirection);
 		var targetCharacterOrientation = Quaternion.Euler(targetCharacterDirection);
 		var mouseDelta = new Vector2(Input.GetAxisRaw("Mouse X"), Input.GetAxisRaw("Mouse Y"));
 		mouseDelta = Vector2.Scale(mouseDelta, new Vector2(sensitivity.x * smoothing.x, sensitivity.y * smoothing.y));
-		_smoothMouse.x = Mathf.Lerp(_smoothMouse.x, mouseDelta.x, 1f / smoothing.x);
-		_smoothMouse.y = Mathf.Lerp(_smoothMouse.y, mouseDelta.y, 1f / smoothing.y);
+		_smoothMouse.x = mouseDelta.x;//Mathf.Lerp(_smoothMouse.x, mouseDelta.x, 1f / smoothing.x);
+		_smoothMouse.y = mouseDelta.y;//Mathf.Lerp(_smoothMouse.y, mouseDelta.y, 1f / smoothing.y);
 		_mouseAbsolute += _smoothMouse;
 		if (clampInDegrees.x < 360) _mouseAbsolute.x = Mathf.Clamp(_mouseAbsolute.x, -clampInDegrees.x * 0.5f, clampInDegrees.x * 0.5f);
 		var xRotation = Quaternion.AngleAxis(-_mouseAbsolute.y, targetOrientation * Vector3.right);

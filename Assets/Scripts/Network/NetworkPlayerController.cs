@@ -11,6 +11,8 @@ public class NetworkPlayerController : NetworkBehaviour {
 	public float jumpSpeed = 100;
 	public float bulletTime = 1000;
 
+	bool check = true;
+
 	bool isShooting;
 	float lastTick, millisecond;
 
@@ -22,6 +24,9 @@ public class NetworkPlayerController : NetworkBehaviour {
 	NetworkHealth health;
 	Slider healthBar;
 	Text healthText;
+
+	public GameObject bulletPrefab;
+	public Transform bulletSpawn;
 
 	void Start() {
 		rb = GetComponent<Rigidbody> ();
@@ -53,8 +58,12 @@ public class NetworkPlayerController : NetworkBehaviour {
 	}
 
 	void ManageHealth () {
-		if (health.GetHealth() <= 0) {
+		if (health.GetHealth() <= 0 && check) {
+			check = false;
 			CmdRespawn ();
+		}
+		if (health.GetHealth () > 0) {
+			check = true;
 		}
 		if (cam.transform.position.y < -100) health.UpdateHealth (-10);
 	}
@@ -76,11 +85,12 @@ public class NetworkPlayerController : NetworkBehaviour {
 
 	void Shoot () {
 		if (Input.GetKeyDown (KeyCode.Mouse0)) {
-			Debug.Log ("Shoot");
 			Ray ray = new Ray(transform.position, transform.forward);
 			lr.SetPosition (0, transform.position);
 			lr.SetPosition (1, transform.position + ray.direction.normalized * 1000f);
-			CmdShootRay (ray);
+			CmdShootRay ();
+//			Debug.Log("Fire!");
+//			CmdFire();
 			isShooting = true;
 		}
 		lr.enabled = isShooting;
@@ -94,7 +104,6 @@ public class NetworkPlayerController : NetworkBehaviour {
 	// UTILITIES
 	[Command]
 	void CmdRespawn () {
-		Debug.Log ("Dead!");
 		transform.position = spawnpoint;
 		health.SetHealth (100);
 	}
@@ -110,18 +119,25 @@ public class NetworkPlayerController : NetworkBehaviour {
 	}
 
 	[Command]
-	public void CmdShootRay(Ray ray) {
+	public void CmdShootRay() {
+		Ray ray = new Ray(transform.position, transform.forward);
 		RaycastHit hit;
-		Debug.Log ("Shoot Ray");
 		if (Physics.Raycast (ray, out hit)) {
-			Debug.Log ("Ray Cast");
+			Debug.Log (hit.transform.gameObject.name);
 			NetworkHealth hitHealth = hit.transform.GetComponent<NetworkHealth> ();
 			if (hitHealth == health) return;
 			if (hitHealth != null) {
-				Debug.Log ("Updating Health");
 				hitHealth.UpdateHealth (-10);
 			}
 		}
+	}
+
+	[Command]
+	void CmdFire() {
+		var bullet = (GameObject)Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
+		bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * 6;
+		NetworkServer.Spawn(bullet);
+		Destroy(bullet, 2.0f);
 	}
 
 	bool isGrounded() {
